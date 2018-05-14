@@ -1,0 +1,36 @@
+{
+  "name": "journal-graphql-server",
+  "version": "0.0.0",
+  "description": "GraphQL Server for Journal App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js --harmony"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dhanushuUzumaki/Journal.git"
+  },
+  "keywords": [
+    "Journal",
+    "GraphQL"
+  ],
+  "author": "Dhanushu Uzumaki",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/dhanushuUzumaki/Journal/issues"
+  },
+  "homepage": "https://github.com/dhanushuUzumaki/Journal#readme",
+  "dependencies": {
+    "babel-core": "^6.26.3",
+    "babel-polyfill": "^6.26.0",
+    "global": "^4.3.2",
+    "graphql-cli": "^2.16.0",
+    "graphql-yoga": "^1.13.1",
+    "prisma-binding": "^2.0.0"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0"
+  }
+}

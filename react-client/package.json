@@ -1,0 +1,27 @@
+{
+  "name": "journal-react-client",
+  "version": "0.0.0",
+  "description": "React Client for Journal App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "echo \"Not Implemented\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dhanushuUzumaki/Journal.git"
+  },
+  "keywords": [
+    "Journal",
+    "React"
+  ],
+  "author": "Dhanushu Uzumaki",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/dhanushuUzumaki/Journal/issues"
+  },
+  "homepage": "https://github.com/dhanushuUzumaki/Journal#readme",
+  "dependencies": {
+    "react": "^16.3.2"
+  }
+}
