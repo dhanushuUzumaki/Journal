@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/dhanushuUzumaki/Journal#readme",
   "dependencies": {
+    "apollo-engine": "^1.1.1",
     "babel-core": "^6.26.3",
     "babel-polyfill": "^6.26.0",
     "global": "^4.3.2",

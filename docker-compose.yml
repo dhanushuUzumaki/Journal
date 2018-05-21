@@ -32,6 +32,7 @@ services:
       - PRISMA_API_SECRET
       - PRISMA_HOST_PORT
       - GRAPHQL_SERVER_PORT
+      - APOLLO_ENGINE_KEY
   react-client:
     build: ./react-client/
     ports:
