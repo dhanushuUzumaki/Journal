@@ -12,12 +12,6 @@ const {
   APOLLO_ENGINE_KEY
 } = process.env;
 
-const graphqlServerConfig = {
-  tracing: true,
-  cacheControl: true,
-  cors: true
-};
-
 const resolvers = {
   Query,
   Mutation
@@ -42,7 +36,11 @@ if (APOLLO_ENGINE_KEY) {
     apiKey: APOLLO_ENGINE_KEY
   });
 
-  const httpServer = server.createHttpServer(graphqlServerConfig);
+  const httpServer = server.createHttpServer({
+    tracing: true,
+    cacheControl: true,
+    cors: true
+  });
 
   engine.listen({
     port: GRAPHQL_SERVER_PORT || 8080,
@@ -50,7 +48,7 @@ if (APOLLO_ENGINE_KEY) {
     graphqlPaths: ['/']
   }, () => console.log(`Server with Apollo Engine is running on port ${GRAPHQL_SERVER_PORT}`));
 } else {
-  server.start(graphqlServerConfig, () => console.log(`Server is running on port ${GRAPHQL_SERVER_PORT}`));
+  server.start({ port: GRAPHQL_SERVER_PORT, cors: true }, () => console.log(`Server is running on port ${GRAPHQL_SERVER_PORT}`));
 }
 
 export default server;
