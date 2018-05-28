@@ -1,6 +1,8 @@
 import { GraphQLServer } from 'graphql-yoga';
 import { Prisma } from 'prisma-binding';
 import { ApolloEngine } from 'apollo-engine';
+import morgan from 'morgan';
+import logger from './lib/logger';
 import Query from './resolvers/Query';
 import Mutation from './resolvers/Mutation';
 
@@ -11,6 +13,15 @@ const {
   GRAPHQL_SERVER_PORT,
   APOLLO_ENGINE_KEY
 } = process.env;
+
+const port = GRAPHQL_SERVER_PORT || 8080;
+
+const SERVER_CONFIG = {
+  tracing: true,
+  cacheControl: true,
+  cors: true,
+  debug: true
+};
 
 const resolvers = {
   Query,
@@ -25,30 +36,27 @@ const server = new GraphQLServer({
     db: new Prisma({
       typeDefs: './src/generated/prisma.graphql',
       endpoint: `http://${PRISMA_SERVICE_NAME}:${PRISMA_HOST_PORT}`,
-      secret: PRISMA_API_SECRET,
-      debug: true,
+      secret: PRISMA_API_SECRET
     })
   })
 });
+
+server.express.use(morgan('combined', { stream: logger.stream }));
 
 if (APOLLO_ENGINE_KEY) {
   const engine = new ApolloEngine({
     apiKey: APOLLO_ENGINE_KEY
   });
 
-  const httpServer = server.createHttpServer({
-    tracing: true,
-    cacheControl: true,
-    cors: true
-  });
+  const httpServer = server.createHttpServer(SERVER_CONFIG);
 
   engine.listen({
-    port: GRAPHQL_SERVER_PORT || 8080,
+    port,
     httpServer,
     graphqlPaths: ['/']
-  }, () => console.log(`Server with Apollo Engine is running on port ${GRAPHQL_SERVER_PORT}`));
+  }, () => logger.info(`Server with Apollo Engine is running on port ${port}`));
 } else {
-  server.start({ port: GRAPHQL_SERVER_PORT, cors: true }, () => console.log(`Server is running on port ${GRAPHQL_SERVER_PORT}`));
+  server.start({ port, ...SERVER_CONFIG }, () => logger.info(`Server is running on port ${port}`));
 }
 
 export default server;
