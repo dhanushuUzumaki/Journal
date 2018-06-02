@@ -1,0 +1,61 @@
+{
+  "name": "journal-react-client",
+  "version": "0.0.0",
+  "description": "React Client for Journal App",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "build:watch": "webpack --watch",
+    "dev": "webpack-dev-server --open",
+    "start": "npm-run-all build dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dhanushuUzumaki/Journal.git"
+  },
+  "keywords": [
+    "Journal",
+    "React"
+  ],
+  "author": {
+    "name": "Dhansuhu Uzumaki",
+    "email": "a.p.dhanushu@gmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "git+https://github.com/dhanushuUzumaki/Journal.git/issues"
+  },
+  "homepage": "git+https://github.com/dhanushuUzumaki/Journal.git#readme",
+  "dependencies": {
+    "classnames": "^2.2.5",
+    "history": "^4.7.2",
+    "prop-types": "^15.6.1",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.2.2",
+    "react-router-redux": "^5.0.0-alpha.9",
+    "redux": "^4.0.0",
+    "redux-immutable-state-invariant": "^2.1.0",
+    "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "copy-webpack-plugin": "^4.5.1",
+    "css-loader": "^0.28.11",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.4.0",
+    "node-sass": "^4.9.0",
+    "npm-run-all": "^4.1.3",
+    "sass-loader": "^7.0.2",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.10.2",
+    "webpack-cleanup-plugin": "^0.5.1",
+    "webpack-cli": "^3.0.0",
+    "webpack-dev-server": "^3.1.4"
+  }
+}
