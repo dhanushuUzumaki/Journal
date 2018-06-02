@@ -1,0 +1,32 @@
+{
+  "name": "journal",
+  "version": "0.0.0",
+  "description": "Journal App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint graphql-server/src react-client/src",
+    "precommit": "npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dhanushuUzumaki/Journal.git"
+  },
+  "keywords": [
+    "Journal"
+  ],
+  "author": "Dhanushu Uzumaki",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/dhanushuUzumaki/Journal/issues"
+  },
+  "homepage": "https://github.com/dhanushuUzumaki/Journal#readme",
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.8.2",
+    "husky": "^0.14.3"
+  }
+}

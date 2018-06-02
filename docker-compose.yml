@@ -1,0 +1,74 @@
+version: '3'
+services:
+  reverse-proxy:
+    image: traefik
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8081:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik/traefik.toml:/etc/traefik/traefik.toml
+      - ./traefik/certs/journal.crt:/certs/journal.crt
+      - ./traefik/certs/journal.key:/certs/journal.key
+    networks:
+      - web
+  prisma:
+    image: prismagraphql/prisma:1.8
+    restart: always
+    ports:
+      - "${PRISMA_HOST_PORT}:4466"
+    networks:
+      - web
+    environment:
+      PRISMA_CONFIG: |
+        port: 4466
+        managementApiSecret: ${PRISMA_API_SECRET}
+        databases:
+          default:
+            connector: postgres
+            host: ${PRISMA_DB_HOST}
+            port: ${PRISMA_DB_PORT}
+            database: ${PRISMA_DB}
+            user: ${PRISMA_DB_USER}
+            password: ${PRISMA_DB_PASSWORD}
+            migrations: ${PRISMA_ENABLE_MIGRATION}
+  graphql-server:
+    build: ./graphql-server/
+    networks:
+      - web
+    ports:
+      - "${GRAPHQL_SERVER_PORT}:8080"
+    volumes:
+      - ./graphql-server:/usr/src/app
+    depends_on:
+      - prisma
+    command: ["./wait-for-it.sh", "prisma:${PRISMA_HOST_PORT}", "--", "npm", "start"]
+    environment:
+      - PRISMA_SERVICE_NAME=prisma
+      - PRISMA_API_SECRET
+      - PRISMA_HOST_PORT
+      - GRAPHQL_SERVER_PORT
+      - APOLLO_ENGINE_KEY
+    labels:
+      - "traefik.backend=graphql"
+      - "traefik.frontend.rule=Host:api.journal.com"
+      - "traefik.enable=true"
+      - "traefik.port=8080"
+      - "traefik.docker.network=web"
+  react-client:
+    build: ./react-client/
+    ports:
+      - "${REACT_CLIENT_PORT}:3000"
+    volumes:
+      - ./react-client:/usr/src/app
+    depends_on:
+      - graphql-server
+    environment:
+      - GRAPHQL_SERVER_PORT
+      - REACT_CLIENT_PORT
+    networks:
+      - web
+networks:
+  web:
+    external: true
