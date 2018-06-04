@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/index.js --harmony",
+    "prisma:deploy": "prisma deploy",
+    "startApp": "node src/index.js --harmony",
+    "start": "npm run prisma:deploy && npm run startApp",
     "generate:doc": "graphdoc -e http://localhost:8080 -o ./docs/api"
   },
   "repository": {
@@ -30,6 +32,7 @@
     "graphql-cli": "^2.16.0",
     "graphql-yoga": "^1.13.1",
     "morgan": "^1.9.0",
+    "prisma": "^1.8.3",
     "prisma-binding": "^2.0.0",
     "winston": "^3.0.0-rc5"
   },

@@ -5,7 +5,5 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 
-RUN echo "test"
-
-EXPOSE 3000
+EXPOSE ${REACT_CLIENT_PORT}
 CMD [ "npm", "start" ]
