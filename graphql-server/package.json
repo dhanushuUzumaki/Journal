@@ -6,8 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prisma:deploy": "prisma deploy",
-    "startApp": "node src/index.js --harmony",
-    "start": "npm run prisma:deploy && npm run startApp",
+    "start": "node src/index.js --harmony",
     "generate:doc": "graphdoc -e http://localhost:8080 -o ./docs/api"
   },
   "repository": {

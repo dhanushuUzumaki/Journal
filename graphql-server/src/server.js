@@ -7,7 +7,7 @@ import Query from './resolvers/Query';
 import Mutation from './resolvers/Mutation';
 
 const {
-  PRISMA_API_SECRET,
+  PRISMA_MANAGEMENT_API_SECRET,
   PRISMA_HOST_PORT,
   PRISMA_SERVICE_NAME,
   GRAPHQL_SERVER_PORT,
@@ -36,7 +36,7 @@ const server = new GraphQLServer({
     db: new Prisma({
       typeDefs: './src/generated/prisma.graphql',
       endpoint: `http://${PRISMA_SERVICE_NAME}:${PRISMA_HOST_PORT}`,
-      secret: PRISMA_API_SECRET
+      secret: PRISMA_MANAGEMENT_API_SECRET
     })
   })
 });

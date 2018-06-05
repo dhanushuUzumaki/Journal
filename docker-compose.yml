@@ -23,7 +23,7 @@ services:
     environment:
       PRISMA_CONFIG: |
         port: ${PRISMA_PORT}
-        managementApiSecret: ${PRISMA_API_SECRET}
+        managementApiSecret: ${PRISMA_MANAGEMENT_API_SECRET}
         databases:
           default:
             connector: postgres
@@ -38,8 +38,6 @@ services:
       context: ./graphql-server/
       args:
         - PORT=${GRAPHQL_SERVER_PORT}
-        - PRISMA_ENDPOINT=${PRISMA_ENDPOINT}
-        - PRISMA_API_SECRET=${PRISMA_API_SECRET}
     networks:
       - web
     ports:
@@ -48,13 +46,14 @@ services:
       - ./graphql-server:/usr/src/app
     depends_on:
       - prisma
-    command: ["./wait-for-it.sh", "prisma:${PRISMA_PORT}", "--", "npm", "start"]
+    command: ["./wait-for-it.sh", "prisma:${PRISMA_PORT}", "--", "./bootstrap.sh"]
     environment:
       - PRISMA_SERVICE_NAME=prisma
-      - PRISMA_API_SECRET
       - PRISMA_PORT
       - GRAPHQL_SERVER_PORT
       - APOLLO_ENGINE_KEY
+      - PRISMA_ENDPOINT
+      - PRISMA_MANAGEMENT_API_SECRET
     labels:
       - "traefik.backend=graphql"
       - "traefik.frontend.rule=Host:api.journal.com"
