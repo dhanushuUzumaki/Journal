@@ -35,7 +35,7 @@ general discussions are made.
 ## [Pull Requests](./doc/guides/contributing/pull-requests.md)
 
 Pull Requests are the way concrete changes are made to the code, documentation,
-dependencies, and tools contained in the `nodejs/node` repository.
+dependencies, and tools contained in the `dhanushuuzumaki/journal` repository.
 
 * [Dependencies](./doc/guides/contributing/pull-requests.md#dependencies)
 * [Setting up your local environment](./doc/guides/contributing/pull-requests.md#setting-up-your-local-environment)
