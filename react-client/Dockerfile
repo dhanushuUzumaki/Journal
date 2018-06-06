@@ -7,8 +7,9 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 RUN npm install
-COPY . .
+RUN npm build
+COPY ./dist .
 
 EXPOSE $PORT
 
-CMD [ "echo", "hi" ]
+CMD [ "npm", "start" ]
