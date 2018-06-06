@@ -14,6 +14,7 @@ install:
   - echo "Installing react client dependencies"
   - cd ../react-client
   - npm i
+  - cd ..
 
 script:
   - cd react-client

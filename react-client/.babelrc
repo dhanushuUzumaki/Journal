@@ -1,6 +1,9 @@
 {
   "presets": ["env", "react"],
   "env": {
-    "browser": true
+    "browser": true,
+    "test": {
+      "presets": [["env"], "react"]
+    }
   }
 }
