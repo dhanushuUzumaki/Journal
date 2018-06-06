@@ -1,49 +1,51 @@
 const path = require('path');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HTMLWebpackPlugin = require('html-webpack-plugin');
+const WebpackMd5Hash = require('webpack-md5-hash');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const WebpackCleanupPlugin = require('webpack-cleanup-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-
-const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-  template: './src/index.html',
-  filename: 'index.html',
-  inject: 'body'
-});
-const MiniCssExtractPluginConfig = new MiniCssExtractPlugin({
-  filename: 'style.[contenthash].css',
-});
-const WebpackCleanupPluginConfig = new WebpackCleanupPlugin();
-const NamedModulesPlugin = new webpack.NamedModulesPlugin();
-const HMRPlugin = new webpack.HotModuleReplacementPlugin();
-const CopyPlugin = new CopyWebpackPlugin([{ from: 'src/static' }]);
 
 module.exports = {
-  entry: './src/index.js',
+  entry: { main: './src/index.js' },
   output: {
-    path: path.resolve('dist'),
-    filename: 'index.[hash].js'
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].[hash].js'
   },
-  devtool: 'inline-source-map',
   devServer: {
-    historyApiFallback: true,
-    contentBase: './',
-    compress: true
+    contentBase: './dist',
+    hot: true
   },
   module: {
     rules: [
-      { test: /\.js$/, use: 'babel-loader', exclude: /node_modules/ },
-      { test: /\.scss$/,
-        use: ['style-loader', MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader'
+        }
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          'style-loader',
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'postcss-loader',
+          'sass-loader'
+        ]
       }
     ]
   },
   plugins: [
-    WebpackCleanupPluginConfig,
-    MiniCssExtractPluginConfig,
-    CopyPlugin,
-    HtmlWebpackPluginConfig,
-    NamedModulesPlugin,
-    HMRPlugin
+    new CleanWebpackPlugin('dist', {}),
+    new MiniCssExtractPlugin({
+      filename: 'style.[contenthash].css'
+    }),
+    new HTMLWebpackPlugin({
+      inject: false,
+      hash: true,
+      template: './src/index.html',
+      filename: 'index.html'
+    }),
+    new WebpackMd5Hash()
   ]
 };

@@ -1,21 +1,15 @@
-/* global document */
 import React from 'react';
-import ReactDOM from 'react-dom';
-import createHistory from 'history/createBrowserHistory';
-import { ConnectedRouter } from 'react-router-redux';
-import { Provider } from 'react-redux';
-import configureStore from './store/';
-import App from './components/App';
+import { render } from 'react-dom';
+import Hello from './Hello';
 import './styles/index.scss';
 
-const history = createHistory();
-const store = configureStore(history);
-
-ReactDOM.render(
-  <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <App />
-    </ConnectedRouter>
-  </Provider>,
-  document.getElementById('root')
-);
+class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <Hello hello="Hello, world! And the people of the world!" />
+      </div>
+    );
+  }
+}
+render(<App />, document.getElementById('app'));

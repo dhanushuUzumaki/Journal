@@ -50,13 +50,18 @@ if (APOLLO_ENGINE_KEY) {
 
   const httpServer = server.createHttpServer(SERVER_CONFIG);
 
-  engine.listen({
-    port,
-    httpServer,
-    graphqlPaths: ['/']
-  }, () => logger.info(`Server with Apollo Engine is running on port ${port}`));
+  engine.listen(
+    {
+      port,
+      httpServer,
+      graphqlPaths: ['/']
+    },
+    () => logger.info(`Server with Apollo Engine is running on port ${port}`)
+  );
 } else {
-  server.start({ port, ...SERVER_CONFIG }, () => logger.info(`Server is running on port ${port}`));
+  server.start({ port, ...SERVER_CONFIG }, () =>
+    logger.info(`Server is running on port ${port}`)
+  );
 }
 
 export default server;
