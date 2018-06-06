@@ -7,7 +7,7 @@
 <!-- Go over all points below, and after creating the PR, tick all the checkboxes that apply. -->
 <!-- All points should be verified, otherwise, read the CONTRIBUTING guidelines from above-->
 <!-- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
-- [ ] Your pull request targets the `develop` branch of freeCodeCamp.
+- [ ] Your pull request targets the `develop` branch of journal.
 - [ ] Branch starts with either `fix/` or `feature/` (e.g. `fix/signin-issue`)
 - [ ] You have only one commit (if not, [squash](http://forum.freecodecamp.org/t/how-to-squash-multiple-commits-into-one-with-git/13231) them into one commit) (Optional).
 - [ ] All new and existing tests pass the command `npm test`. Use `git commit --amend` to amend any fixes (Not needed until test cases are added).
