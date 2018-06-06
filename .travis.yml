@@ -5,21 +5,17 @@ language: node_js
 node_js:
   - "node"
 
-services:
-  - docker
-
-before_install:
-  - sudo apt-get update
-  - docker-compose --version
-  - sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
-  - docker-compose --version
-
 install:
-  - echo "install nothing!" # put your normal pre-testing installs here
+  - echo "Installing lint dependencies"
+  - npm i
+  - echo "Installing graphql server dependencies"
+  - cd graphql-server
+  - npm i
+  - echo "Installing react client dependencies"
+  - cd ../react-client
+  - npm i
 
 script:
-  - echo "no tests!" # put your normal testing scripts here
-
-after_success:
-  - docker --version
-  - docker-compose build
+  - cd react-client
+  - npm run build
+  - npm run test
