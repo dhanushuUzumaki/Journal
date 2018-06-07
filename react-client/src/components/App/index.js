@@ -1,11 +1,18 @@
 import React from 'react';
-import Input from '../Input';
+import Navbar from '../Navbar';
+
+const links = [
+  {
+    itemName: 'uzu',
+    itemLink: 'http://uzu.com'
+  }
+];
 
 class App extends React.Component {
   render() {
     return (
       <div>
-        <Input name="name" label="Name" />
+        <Navbar navTitle="Todo" navItems={links} />
       </div>
     );
   }
