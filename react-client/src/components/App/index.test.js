@@ -9,10 +9,10 @@ describe('Hello Component', () => {
     expect(shallow(<App />).exists()).toBe(true);
   });
 
-  it('should render Hello component', () => {
+  it('should render Input component', () => {
     expect(
       shallow(<App />)
-        .find('Hello')
+        .find('Input')
         .exists()
     ).toBe(true);
   });

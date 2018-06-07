@@ -27,7 +27,14 @@
       "jsx-a11y/no-autofocus": 0,
       "jsx-a11y/tabindex-no-positive": 0,
       "prettier/prettier": "error",
-      "import/no-extraneous-dependencies": 0
+      "import/no-extraneous-dependencies": 0,
+      "jsx-a11y/label-has-for": [ 2, {
+            "components": [ "Label" ],
+            "required": {
+                "every": [ "id" ]
+            },
+            "allowChildren": false
+        }]
   },
   "env": {
     "browser": true,

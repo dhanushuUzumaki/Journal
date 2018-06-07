@@ -1,11 +1,11 @@
 import React from 'react';
-import Hello from '../Hello';
+import Input from '../Input';
 
 class App extends React.Component {
   render() {
     return (
       <div>
-        <Hello hello="Hello, world! And the people of the world!" />
+        <Input name="name" label="Name" />
       </div>
     );
   }
