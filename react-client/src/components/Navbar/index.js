@@ -2,7 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const renderNavItems = navItems => {
-  return navItems.map(item => <a href={item.itemLink}>{item.itemName}</a>);
+  return navItems.map(({ itemLink, itemName }) => (
+    <a href={itemLink} key={itemName}>
+      {itemName}
+    </a>
+  ));
 };
 
 class NavBar extends React.Component {

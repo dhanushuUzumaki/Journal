@@ -1,5 +1,6 @@
 import React from 'react';
 import Navbar from '../Navbar';
+import Todo from '../Todo';
 
 const links = [
   {
@@ -11,9 +12,10 @@ const links = [
 class App extends React.Component {
   render() {
     return (
-      <div>
+      <React.Fragment>
         <Navbar navTitle="Todo" navItems={links} />
-      </div>
+        <Todo />
+      </React.Fragment>
     );
   }
 }
