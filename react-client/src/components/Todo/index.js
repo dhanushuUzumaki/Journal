@@ -15,7 +15,6 @@ class Todo extends React.Component {
     this.setState(prevState => {
       const tasks = prevState.tasks.slice();
       tasks.push(task);
-      console.log(task);
       return {
         tasks
       };
@@ -23,7 +22,6 @@ class Todo extends React.Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <div className="todoHolder">
         <Input label="Task" name="todo" onBlur={this.onBlur} />
