@@ -1,10 +1,10 @@
-.group {
+.input-container {
   position: relative;
-  margin-bottom: 45px;
+  // margin-bottom: 45px;
 
   label {
     color: #999;
-    font-size: 18px;
+    font-size: 1em;
     font-weight: normal;
     position: absolute;
     pointer-events: none;
@@ -25,7 +25,7 @@
       width: 0;
       bottom: 1px;
       position: absolute;
-      background: #5264ae;
+      background: var(--primary);
       transition: 0.2s ease all;
     }
     &:before {
@@ -47,21 +47,26 @@
   }
 
   input {
-    font-size: 18px;
+    font-size: 0.9em;
     padding: 10px;
     display: block;
     width: 300px;
     border: none;
-    border-bottom: 1px solid #757575;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     &:focus {
       outline: none;
+    }
+
+    &:focus,
+    &:valid {
+      border-bottom: 1px solid var(--primary);
     }
 
     &:focus ~ label,
     &:valid ~ label {
       top: -10px;
-      font-size: 14px;
-      color: #5264ae;
+      font-size: 0.8em;
+      color: var(--primary);
     }
 
     &:focus ~ .bar:before,
@@ -77,7 +82,7 @@
 
 @keyframes inputHighlighter {
   from {
-    background: #5264ae;
+    background: var(--primary);
   }
   to {
     width: 0;

@@ -4,7 +4,7 @@ import Todo from '../Todo';
 
 const links = [
   {
-    itemName: 'uzu',
+    itemName: 'Tasks',
     itemLink: 'http://uzu.com'
   }
 ];

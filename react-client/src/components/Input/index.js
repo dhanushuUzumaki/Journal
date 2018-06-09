@@ -1,36 +1,64 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const extractStateFromProps = ({ value }) => ({ value });
+
 class Input extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      value: ''
-    };
-    this.onKeyPress = e => this._onKeyPress(e);
+    this.state = extractStateFromProps(props);
+    this.onChange = e => this._onChange(e);
+    this.handleEnter = e => this._handleEnter(e);
+    this.handleBlur = () => this._handleBlur();
+    this.resetValue = () => this._resetValue();
+    this.input = React.createRef();
   }
 
-  _onKeyPress(e) {
-    let { value } = e.target;
-    if (e.key === 'Enter') {
-      this.props.onBlur(value);
-      value = '';
+  _resetValue() {
+    this.setState(
+      state => ({ ...state, value: '' }),
+      () => this.input.current.blur()
+    );
+  }
+
+  _handleBlur() {
+    const { onBlur, resetOnBlur } = this.props;
+    if (typeof onBlur === 'function') {
+      onBlur(this.state.value);
+      if (resetOnBlur) {
+        this.resetValue();
+      }
     }
-    this.setState({
-      value
-    });
+  }
+
+  _handleEnter(e) {
+    const { handleEnter, resetOnEnter } = this.props;
+    if (typeof handleEnter === 'function' && e.charCode === 13) {
+      handleEnter(this.state.value);
+      if (resetOnEnter) {
+        this.resetValue();
+      }
+    }
+  }
+
+  _onChange(e) {
+    const { value } = e.target;
+    this.setState(state => ({ ...state, value }));
   }
 
   render() {
     const { name, label } = this.props;
     return (
-      <div className="group">
+      <div className="input-container">
         <input
           type="text"
           name={name}
           required="true"
-          onKeyPress={this.onKeyPress}
+          onChange={this.onChange}
           value={this.state.value}
+          onKeyPress={this.handleEnter}
+          onBlur={this.handleBlur}
+          ref={this.input}
         />
         <span className="highlight" />
         <span className="bar" />
@@ -39,10 +67,21 @@ class Input extends React.Component {
     );
   }
 }
+
 Input.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  onBlur: PropTypes.func
+  handleEnter: PropTypes.func,
+  onBlur: PropTypes.func,
+  value: PropTypes.string,
+  resetOnEnter: PropTypes.bool,
+  resetOnBlur: PropTypes.bool
+};
+
+Input.defaultProps = {
+  value: '',
+  resetOnBlur: false,
+  resetOnEnter: false
 };
 
 Input.displayName = 'Input';

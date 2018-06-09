@@ -1,5 +1,6 @@
 import React from 'react';
 import Input from '../Input';
+import TodoItem from './TodoItem';
 
 class Todo extends React.Component {
   constructor(props) {
@@ -8,26 +9,38 @@ class Todo extends React.Component {
       tasks: []
     };
 
-    this.onBlur = task => this._onBlur(task);
+    this.addTask = task => this._addTask(task);
   }
 
-  _onBlur(task) {
-    this.setState(prevState => {
-      const tasks = prevState.tasks.slice();
-      tasks.push(task);
-      return {
-        tasks
-      };
-    });
+  _addTask(task) {
+    if (task.length > 0) {
+      this.setState(prevState => {
+        const tasks = prevState.tasks.slice();
+        tasks.push(task);
+        return {
+          tasks
+        };
+      });
+    }
   }
 
   render() {
+    const { addTask } = this;
     return (
       <div className="todoHolder">
-        <Input label="Task" name="todo" onBlur={this.onBlur} />
-        <ul>
+        <Input
+          label="Task"
+          name="todo"
+          onBlur={addTask}
+          handleEnter={addTask}
+          resetOnBlur
+          resetOnEnter
+        />
+        <ul className="todo-items">
           {(() => {
-            this.state.tasks.map(task => <li>{task}</li>);
+            return this.state.tasks.map((task, i) => (
+              <TodoItem item={task} key={i} />
+            ));
           })()}
         </ul>
       </div>

@@ -1,6 +1,57 @@
 .todoHolder {
   position: relative;
-  display: flex;
-  justify-content: space-around;
   top: 30px;
+  box-sizing: border-box;
+  display: grid;
+  justify-content: space-around;
+
+  .input-container {
+    input,
+    .bar {
+      width: 400px;
+      @media (max-width: 500px) {
+        width: 300px;
+      }
+    }
+  }
+
+  .todo-items {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-top: 0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    max-height: 70vh;
+    overflow-y: scroll;
+    &:empty {
+      display: none;
+    }
+    max-width: 400px;
+    @media (max-width: 500px) {
+      max-width: 300px;
+    }
+  }
+
+  .todo-item {
+    min-height: 45px;
+    display: grid;
+    grid-auto-flow: column;
+    align-content: center;
+    grid-template-columns: 1fr 20px;
+    padding: 10px;
+    &:hover {
+      background: #eee;
+    }
+    .item {
+      max-width: 320px;
+      @media (max-width: 500px) {
+        max-width: 250px;
+      }
+    }
+    .delete-item {
+      cursor: pointer;
+      .material-icons {
+        font-size: 1em;
+      }
+    }
+  }
 }

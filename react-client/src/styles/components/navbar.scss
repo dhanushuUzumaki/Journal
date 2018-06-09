@@ -1,14 +1,14 @@
 .nav {
   height: 50px;
   width: 100%;
-  background-color: #4d4d4d;
+  background-color: var(--primary);
   position: relative;
   .nav-header {
     display: inline;
     .nav-title {
       display: inline-block;
       font-size: 22px;
-      color: #fff;
+      color: var(--primary-text);
       padding: 10px 10px 10px 10px;
     }
   }
@@ -19,13 +19,15 @@
     display: inline;
     float: right;
     font-size: 18px;
+    z-index: 10;
     a {
       display: inline-block;
       padding: 13px 10px 13px 10px;
       text-decoration: none;
-      color: #efefef;
+      color: var(--primary-text);
+      height: 50px;
       &:hover {
-        background-color: rgba(0, 0, 0, 0.3);
+        background-color: var(--primary-dark);
       }
     }
   }
@@ -47,13 +49,13 @@
         height: 50px;
         padding: 13px;
         &:hover {
-          background-color: rgba(0, 0, 0, 0.3);
+          background-color: var(--primary-dark);
         }
         span {
           display: block;
           width: 25px;
           height: 10px;
-          border-top: 2px solid #eee;
+          border-top: 2px solid var(--primary-text);
         }
       }
     }
@@ -61,7 +63,7 @@
       position: absolute;
       display: block;
       width: 100%;
-      background-color: #333;
+      background-color: var(--primary);
       height: 0px;
       transition: all 0.3s ease-in;
       overflow-y: hidden;
