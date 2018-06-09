@@ -12,7 +12,7 @@ describe('Hello Component', () => {
   it('should render Input component', () => {
     expect(
       shallow(<App />)
-        .find('Input')
+        .find('NavBar')
         .exists()
     ).toBe(true);
   });
