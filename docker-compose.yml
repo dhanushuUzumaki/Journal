@@ -17,7 +17,7 @@ services:
     image: prismagraphql/prisma:1.8
     restart: always
     ports:
-      - "${PRISMA_PORT}"
+      - "${PRISMA_PORT}:${PRISMA_PORT}"
     networks:
       - web
     environment:
@@ -41,7 +41,7 @@ services:
     networks:
       - web
     ports:
-      - "${GRAPHQL_SERVER_PORT}"
+      - "${GRAPHQL_SERVER_PORT}:${GRAPHQL_SERVER_PORT}"
     volumes:
       - ./graphql-server:/usr/src/app
     depends_on:
@@ -66,7 +66,7 @@ services:
       args:
         - PORT=${REACT_CLIENT_PORT}
     ports:
-      - "${REACT_CLIENT_PORT}"
+      - "${REACT_CLIENT_PORT}:${REACT_CLIENT_PORT}"
     volumes:
       - ./react-client:/usr/src/app
     depends_on:
