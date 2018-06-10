@@ -3,8 +3,12 @@
 type Query {
   info: String!
   tasks: [Task]!
+  deletedTasks: [Task]!
 }
 
 type Mutation {
-  add(task: String!): Task!
+  addTask(task: String!): Task!
+  deleteTask(id: ID!): String!
+  restoreTask(id: ID!): Task!
+  deleteTaskPermanently(id: ID!): String!
 }

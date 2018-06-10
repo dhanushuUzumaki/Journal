@@ -1,5 +1,5 @@
 # source: http://prisma:4466
-# timestamp: Sun Jun 10 2018 13:58:37 GMT+0000 (UTC)
+# timestamp: Sun Jun 10 2018 16:49:40 GMT+0000 (UTC)
 
 type AggregateTask {
   count: Int!
@@ -74,6 +74,8 @@ type Task implements Node {
   id: ID!
   createdAt: DateTime!
   task: String!
+  completed: Boolean!
+  deleted: Boolean!
 }
 
 """A connection to a list of items."""
@@ -88,6 +90,8 @@ type TaskConnection {
 
 input TaskCreateInput {
   task: String!
+  completed: Boolean!
+  deleted: Boolean!
 }
 
 """An edge in a connection."""
@@ -106,6 +110,10 @@ enum TaskOrderByInput {
   createdAt_DESC
   task_ASC
   task_DESC
+  completed_ASC
+  completed_DESC
+  deleted_ASC
+  deleted_DESC
   updatedAt_ASC
   updatedAt_DESC
 }
@@ -114,6 +122,8 @@ type TaskPreviousValues {
   id: ID!
   createdAt: DateTime!
   task: String!
+  completed: Boolean!
+  deleted: Boolean!
 }
 
 type TaskSubscriptionPayload {
@@ -157,6 +167,8 @@ input TaskSubscriptionWhereInput {
 
 input TaskUpdateInput {
   task: String
+  completed: Boolean
+  deleted: Boolean
 }
 
 input TaskWhereInput {
@@ -270,6 +282,14 @@ input TaskWhereInput {
 
   """All values not ending with the given string."""
   task_not_ends_with: String
+  completed: Boolean
+
+  """All values that are not equal to given value."""
+  completed_not: Boolean
+  deleted: Boolean
+
+  """All values that are not equal to given value."""
+  deleted_not: Boolean
 }
 
 input TaskWhereUniqueInput {
