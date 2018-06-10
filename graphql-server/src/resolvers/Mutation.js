@@ -1,9 +1,8 @@
-const post = (root, args, context, info) => {
-  return context.db.mutation.createLink(
+const add = (root, args, context, info) => {
+  return context.db.mutation.createTask(
     {
       data: {
-        url: args.url,
-        description: args.description
+        task: args.task
       }
     },
     info
@@ -11,5 +10,5 @@ const post = (root, args, context, info) => {
 };
 
 export default {
-  post
+  add
 };

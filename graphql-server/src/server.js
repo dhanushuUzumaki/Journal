@@ -8,7 +8,7 @@ import Mutation from './resolvers/Mutation';
 
 const {
   PRISMA_MANAGEMENT_API_SECRET,
-  PRISMA_HOST_PORT,
+  PRISMA_PORT,
   PRISMA_SERVICE_NAME,
   GRAPHQL_SERVER_PORT,
   APOLLO_ENGINE_KEY
@@ -23,6 +23,8 @@ const SERVER_CONFIG = {
   debug: true
 };
 
+logger.info(`http://${PRISMA_SERVICE_NAME}:${PRISMA_PORT}`);
+
 const resolvers = {
   Query,
   Mutation
@@ -35,7 +37,7 @@ const server = new GraphQLServer({
     ...req,
     db: new Prisma({
       typeDefs: './src/generated/prisma.graphql',
-      endpoint: `http://${PRISMA_SERVICE_NAME}:${PRISMA_HOST_PORT}`,
+      endpoint: `http://${PRISMA_SERVICE_NAME}:${PRISMA_PORT}`,
       secret: PRISMA_MANAGEMENT_API_SECRET
     })
   })

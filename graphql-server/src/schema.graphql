@@ -1,10 +1,10 @@
-# import Link from "./generated/prisma.graphql"
+# import Task from "./generated/prisma.graphql"
 
 type Query {
   info: String!
-  feed: [Link]!
+  tasks: [Task]!
 }
 
 type Mutation {
-  post(url: String!, description: String!): Link!
+  add(task: String!): Task!
 }
