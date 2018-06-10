@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --mode production",
     "dev": "webpack-dev-server --mode=development --hot --open",
-    "start": "http-server dist/",
+    "start": "http-server dist/ -p 3000",
     "test": "jest",
     "test:coverage": "jest --collectCoverage=true"
   },

@@ -43,11 +43,13 @@
     }
     .item {
       max-width: 320px;
+      text-transform: capitalize;
       @media (max-width: 500px) {
         max-width: 250px;
       }
     }
-    .delete-item {
+    .delete-item,
+    .complete-item {
       cursor: pointer;
       .material-icons {
         font-size: 1em;
