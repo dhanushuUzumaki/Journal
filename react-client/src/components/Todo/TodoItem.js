@@ -31,7 +31,7 @@ const TodoItem = ({ item, onDelete, index }) => {
 TodoItem.propTypes = {
   item: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
-  index: PropTypes.string.isRequired
+  index: PropTypes.number.isRequired
 };
 
 export default TodoItem;

@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import _ from 'lodash';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import Input from '../Input';
 import TodoItem from './TodoItem';
 import * as actions from '../../actions/actions';
@@ -24,6 +27,12 @@ class Todo extends React.Component {
 
   render() {
     const { addTask, deleteTask } = this;
+    if (this.props.tasksQuery && this.props.tasksQuery.loading) {
+      return <div>Loading</div>;
+    }
+    if (this.props.tasksQuery && this.props.tasksQuery.error) {
+      return <div>Error</div>;
+    }
     return (
       <div className="todoHolder">
         <Input
@@ -36,9 +45,23 @@ class Todo extends React.Component {
         />
         <ul className="todo-items">
           {(() => {
-            return this.props.tasks.map((task, i) => (
-              <TodoItem item={task} key={i} index={i} onDelete={deleteTask} />
+            const reduxTasks = this.props.tasks.map((task, i) => (
+              <TodoItem
+                item={task}
+                index={i}
+                key={`${i - 0}`}
+                onDelete={deleteTask}
+              />
             ));
+            const apolloTasks = this.props.tasksQuery.tasks.map((task, i) => (
+              <TodoItem
+                item={task.task}
+                index={i}
+                key={`${i - 1}`}
+                onDelete={deleteTask}
+              />
+            ));
+            return reduxTasks.concat(apolloTasks);
           })()}
         </ul>
       </div>
@@ -48,7 +71,8 @@ class Todo extends React.Component {
 
 Todo.propTypes = {
   dispatch: PropTypes.func,
-  tasks: PropTypes.array
+  tasks: PropTypes.array,
+  tasksQuery: PropTypes.object
 };
 
 const mapStateToProps = ({ todos }) => {
@@ -57,4 +81,17 @@ const mapStateToProps = ({ todos }) => {
   };
 };
 
-export default connect(mapStateToProps)(Todo);
+export const TASKS_QUERY = gql`
+  query FeedQuery {
+    tasks {
+      task
+      id
+      completed
+    }
+  }
+`;
+
+export default _.flow(
+  connect(mapStateToProps),
+  graphql(TASKS_QUERY, { name: 'tasksQuery' })
+)(Todo);
