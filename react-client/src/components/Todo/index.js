@@ -1,36 +1,56 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import _ from 'lodash';
-import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
+import { withApollo, graphql } from 'react-apollo';
 import Input from '../Input';
 import TodoItem from './TodoItem';
-import * as actions from '../../actions/actions';
+// import * as actions from '../../actions/actions';
+import * as gqlOperations from '../../graphqlOperations/Todo';
+
+const updateStoreWithNewTask = (store, addedTask) => {
+  const data = store.readQuery({ query: gqlOperations.TASKS_QUERY });
+  data.tasks.push(addedTask);
+  store.writeQuery({ query: gqlOperations.TASKS_QUERY, data });
+};
+
+const updateStoreWithDeletedTask = (store, deletedTask) => {
+  const data = store.readQuery({ query: gqlOperations.TASKS_QUERY });
+  const deletedTaskIndex = data.tasks.findIndex(t => t.id === deletedTask);
+  data.tasks.splice(deletedTaskIndex, 1);
+  store.writeQuery({ query: gqlOperations.TASKS_QUERY, data });
+};
 
 class Todo extends React.Component {
-  constructor(props) {
-    super(props);
-    this.addTask = task => this._addTask(task);
-    this.deleteTask = index => this._deleteTask(index);
-  }
-
-  _addTask(task) {
+  addTask = async task => {
     if (task.length > 0) {
-      this.props.dispatch(actions.addItem(task));
+      await this.props.client.mutate({
+        mutation: gqlOperations.ADD_TASK,
+        variables: { task },
+        update: (store, { data: { addTask } }) => {
+          updateStoreWithNewTask(store, addTask);
+        }
+      });
     }
-  }
+  };
 
-  _deleteTask(index) {
-    this.props.dispatch(actions.removeItem(index));
-  }
+  deleteTask = async id => {
+    await this.props.client.mutate({
+      mutation: gqlOperations.DELETE_TASK,
+      variables: { id },
+      update: (store, { data: { deleteTask } }) => {
+        updateStoreWithDeletedTask(store, deleteTask);
+      }
+    });
+  };
 
   render() {
     const { addTask, deleteTask } = this;
-    if (this.props.tasksQuery && this.props.tasksQuery.loading) {
+    const { tasksQuery } = this.props;
+    if (tasksQuery && tasksQuery.loading) {
       return <div>Loading</div>;
     }
-    if (this.props.tasksQuery && this.props.tasksQuery.error) {
+    if (tasksQuery && tasksQuery.error) {
       return <div>Error</div>;
     }
     return (
@@ -45,23 +65,14 @@ class Todo extends React.Component {
         />
         <ul className="todo-items">
           {(() => {
-            const reduxTasks = this.props.tasks.map((task, i) => (
-              <TodoItem
-                item={task}
-                index={i}
-                key={`${i - 0}`}
-                onDelete={deleteTask}
-              />
-            ));
-            const apolloTasks = this.props.tasksQuery.tasks.map((task, i) => (
+            return tasksQuery.tasks.map((task, i) => (
               <TodoItem
                 item={task.task}
-                index={i}
-                key={`${i - 1}`}
+                id={task.id}
+                key={`${i}`}
                 onDelete={deleteTask}
               />
             ));
-            return reduxTasks.concat(apolloTasks);
           })()}
         </ul>
       </div>
@@ -71,27 +82,26 @@ class Todo extends React.Component {
 
 Todo.propTypes = {
   dispatch: PropTypes.func,
-  tasks: PropTypes.array,
-  tasksQuery: PropTypes.object
+  tasksQuery: PropTypes.object,
+  client: PropTypes.object
 };
 
+/**
 const mapStateToProps = ({ todos }) => {
   return {
     tasks: todos.todoItems
   };
 };
+*/
 
-export const TASKS_QUERY = gql`
-  query FeedQuery {
-    tasks {
-      task
-      id
-      completed
-    }
-  }
-`;
-
+/** Use this pattern when you want to get data from both apollo store and redux store
 export default _.flow(
   connect(mapStateToProps),
   graphql(TASKS_QUERY, { name: 'tasksQuery' })
+)(Todo);
+*/
+
+export default _.flow(
+  withApollo,
+  graphql(gqlOperations.TASKS_QUERY, { name: 'tasksQuery' })
 )(Todo);

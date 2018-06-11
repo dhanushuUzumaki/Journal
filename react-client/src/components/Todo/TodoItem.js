@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const TodoItem = ({ item, onDelete, index }) => {
+const TodoItem = ({ item, onDelete, id }) => {
   const handleKeyPress = e => {
     if (e.target.charCode === 13) {
-      onDelete(index);
+      onDelete(id);
     }
   };
 
-  const handleClick = () => onDelete(index);
+  const handleClick = () => onDelete(id);
   return (
     <li className="todo-item">
       <span className="item">{item}</span>
@@ -31,7 +31,7 @@ const TodoItem = ({ item, onDelete, index }) => {
 TodoItem.propTypes = {
   item: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
-  index: PropTypes.number.isRequired
+  id: PropTypes.string.isRequired
 };
 
 export default TodoItem;
