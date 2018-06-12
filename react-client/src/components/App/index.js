@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import Navbar from '../Navbar';
 import Todo from '../Todo';
 import Trash from '../Todo/Trash';
@@ -18,13 +18,11 @@ const links = [
 class App extends React.Component {
   render() {
     return (
-      <Router>
-        <React.Fragment>
-          <Navbar navTitle="Todo" navItems={links} />
-          <Route exact path="/" component={Todo} />
-          <Route path="/trash" component={Trash} />
-        </React.Fragment>
-      </Router>
+      <React.Fragment>
+        <Navbar navTitle="Todo" navItems={links} />
+        <Route exact path="/" component={Todo} />
+        <Route path="/trash" component={Trash} />
+      </React.Fragment>
     );
   }
 }

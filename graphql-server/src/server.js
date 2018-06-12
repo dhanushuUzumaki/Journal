@@ -6,19 +6,13 @@ import logger from './lib/logger';
 import Query from './resolvers/Query';
 import Mutation from './resolvers/Mutation';
 
-// const {
-//   PRISMA_MANAGEMENT_API_SECRET,
-//   PRISMA_PORT,
-//   PRISMA_SERVICE_NAME,
-//   GRAPHQL_SERVER_PORT,
-//   APOLLO_ENGINE_KEY
-// } = process.env;
-
-const PRISMA_MANAGEMENT_API_SECRET = 'my-secret';
-const PRISMA_PORT = '4466';
-const PRISMA_SERVICE_NAME = 'localhost';
-const GRAPHQL_SERVER_PORT = '8080';
-const APOLLO_ENGINE_KEY = undefined;
+const {
+  PRISMA_MANAGEMENT_API_SECRET,
+  PRISMA_PORT,
+  PRISMA_SERVICE_NAME,
+  GRAPHQL_SERVER_PORT,
+  APOLLO_ENGINE_KEY
+} = process.env;
 
 const port = GRAPHQL_SERVER_PORT || 8080;
 
