@@ -11,4 +11,5 @@ type Mutation {
   deleteTask(id: ID!): String!
   restoreTask(id: ID!): Task!
   deleteTaskPermanently(id: ID!): String!
+  updateTaskStatus(id: ID!, completed: Boolean!): Task
 }

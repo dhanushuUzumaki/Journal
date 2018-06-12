@@ -25,9 +25,9 @@
     &:empty {
       display: none;
     }
-    max-width: 400px;
+    width: 400px;
     @media (max-width: 500px) {
-      max-width: 300px;
+      width: 300px;
     }
   }
 
@@ -36,7 +36,7 @@
     display: grid;
     grid-auto-flow: column;
     align-content: center;
-    grid-template-columns: 1fr 20px;
+    grid-template-columns: 1fr 30px;
     padding: 10px;
     &:hover {
       background: #eee;
@@ -47,10 +47,24 @@
       @media (max-width: 500px) {
         max-width: 250px;
       }
+      &.completed {
+        text-decoration: line-through;
+        color: rgba(0, 0, 0, 0.5);
+      }
     }
-    .delete-item,
-    .complete-item {
+
+    .item-action {
+      position: relative;
+      top: 1px;
+    }
+
+    .item-action,
+    .delete-item {
       cursor: pointer;
+      &:active,
+      &:focus {
+        outline: none;
+      }
       .material-icons {
         font-size: 1em;
       }

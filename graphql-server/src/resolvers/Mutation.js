@@ -56,9 +56,24 @@ const restoreTask = (root, args, context, info) => {
   );
 };
 
+const updateTaskStatus = (root, args, context, info) => {
+  return context.db.mutation.updateTask(
+    {
+      data: {
+        completed: args.completed
+      },
+      where: {
+        id: args.id
+      }
+    },
+    info
+  );
+};
+
 export default {
   addTask,
   deleteTask,
   restoreTask,
-  deleteTaskPermanently
+  deleteTaskPermanently,
+  updateTaskStatus
 };

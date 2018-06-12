@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const renderNavItems = navItems => {
   return navItems.map(({ itemLink, itemName }) => (
-    <a href={itemLink} key={itemName}>
+    <Link to={itemLink} key={itemName}>
       {itemName}
-    </a>
+    </Link>
   ));
 };
 

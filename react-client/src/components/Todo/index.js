@@ -22,7 +22,29 @@ const updateStoreWithDeletedTask = (store, deletedTask) => {
 };
 
 class Todo extends React.Component {
-  addTask = async task => {
+  constructor(props) {
+    super(props);
+    this.addTask = task => this._addTask(task);
+    this.deleteTask = id => this._deleteTask(id);
+    this.updateTaskStatus = id => this._updateTaskStatus(id);
+  }
+
+  async _deleteTask(id) {
+    await this.props.client.mutate({
+      mutation: gqlOperations.DELETE_TASK,
+      variables: { id },
+      update: (store, { data: { deleteTask } }) => {
+        updateStoreWithDeletedTask(store, deleteTask);
+      },
+      refetchQueries: [
+        {
+          query: gqlOperations.DELETED_TASKS_QUERY
+        }
+      ]
+    });
+  }
+
+  async _addTask(task) {
     if (task.length > 0) {
       await this.props.client.mutate({
         mutation: gqlOperations.ADD_TASK,
@@ -32,21 +54,22 @@ class Todo extends React.Component {
         }
       });
     }
-  };
+  }
 
-  deleteTask = async id => {
-    await this.props.client.mutate({
-      mutation: gqlOperations.DELETE_TASK,
-      variables: { id },
-      update: (store, { data: { deleteTask } }) => {
-        updateStoreWithDeletedTask(store, deleteTask);
+  async _updateTaskStatus(id) {
+    const { client, tasksQuery } = this.props;
+    await client.mutate({
+      mutation: gqlOperations.UPDATE_TASK_STATUS,
+      variables: {
+        id,
+        completed: !tasksQuery.tasks.find(task => task.id === id).completed
       }
     });
-  };
+  }
 
   render() {
-    const { addTask, deleteTask } = this;
     const { tasksQuery } = this.props;
+    const { addTask, deleteTask, updateTaskStatus } = this;
     if (tasksQuery && tasksQuery.loading) {
       return <div>Loading</div>;
     }
@@ -71,6 +94,8 @@ class Todo extends React.Component {
                 id={task.id}
                 key={`${i}`}
                 onDelete={deleteTask}
+                completed={task.completed}
+                actionHandler={updateTaskStatus}
               />
             ));
           })()}
