@@ -1,0 +1,89 @@
+version: '3'
+services:
+  reverse-proxy:
+    image: traefik
+    ports:
+      - "80:80"
+      - "443:443"
+      - "${TRAEFIK_DASHBOARD_PORT}:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik/traefik.toml:/etc/traefik/traefik.toml
+      - ./traefik/certs/journal.crt:/certs/journal.crt
+      - ./traefik/certs/journal.key:/certs/journal.key
+    networks:
+      - web
+  prisma:
+    image: prismagraphql/prisma:1.8
+    restart: always
+    ports:
+      - "${PRISMA_PORT}:${PRISMA_PORT}"
+    networks:
+      - web
+    environment:
+      PRISMA_CONFIG: |
+        port: ${PRISMA_PORT}
+        managementApiSecret: ${PRISMA_MANAGEMENT_API_SECRET}
+        databases:
+          default:
+            connector: postgres
+            host: ${PRISMA_DB_HOST}
+            port: ${PRISMA_DB_PORT}
+            database: ${PRISMA_DB}
+            user: ${PRISMA_DB_USER}
+            password: ${PRISMA_DB_PASSWORD}
+            migrations: ${PRISMA_ENABLE_MIGRATION}
+  graphql-server:
+    build:
+      context: ./graphql-server/
+      args:
+        - PORT=${GRAPHQL_SERVER_PORT}
+    networks:
+      - web
+    ports:
+      - "${GRAPHQL_SERVER_PORT}:${GRAPHQL_SERVER_PORT}"
+    volumes:
+      - ./graphql-server:/usr/src/app
+    depends_on:
+      - prisma
+    command: ["./wait-for-it.sh", "prisma:${PRISMA_PORT}", "--", "./bootstrap.sh"]
+    environment:
+      - PRISMA_SERVICE_NAME=prisma
+      - PRISMA_PORT
+      - GRAPHQL_SERVER_PORT
+      - APOLLO_ENGINE_KEY
+      - PRISMA_ENDPOINT
+      - PRISMA_MANAGEMENT_API_SECRET
+      - DEPLOY_PRISMA
+    labels:
+      - "traefik.backend=graphql"
+      - "traefik.frontend.rule=Host:api.journal.com"
+      - "traefik.enable=true"
+      - "traefik.port=${GRAPHQL_SERVER_PORT}"
+      - "traefik.docker.network=web"
+  react-client:
+    build:
+      context: ./react-client/
+      args:
+        - PORT=${REACT_CLIENT_PORT}
+    ports:
+      - "${REACT_CLIENT_PORT}:${REACT_CLIENT_PORT}"
+    volumes:
+      - ./react-client:/usr/src/app
+    command: ["./wait-for-it.sh", "graphql-server:${GRAPHQL_SERVER_PORT}", "--", "./bootstrap.sh"]
+    depends_on:
+      - graphql-server
+    environment:
+      - GRAPHQL_ENDPOINT
+      - REACT_CLIENT_PORT
+    networks:
+      - web
+    labels:
+      - "traefik.backend=react-client"
+      - "traefik.frontend.rule=Host:journal.com"
+      - "traefik.enable=true"
+      - "traefik.port=${REACT_CLIENT_PORT}"
+      - "traefik.docker.network=web"
+networks:
+  web:
+    external: true

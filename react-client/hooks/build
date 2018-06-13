@@ -1,0 +1,3 @@
+#!/bin/bash
+echo "building react client"
+docker build --build-arg PORT=$REACT_CLIENT_PORT -f $DOCKERFILE_PATH -t $IMAGE_NAME .
