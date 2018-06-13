@@ -1,0 +1,3 @@
+#!/bin/bash
+echo "building graphql server"
+docker build --build-arg PORT=$GRAPHQL_SERVER_PORT -f $DOCKERFILE_PATH -t $IMAGE_NAME .

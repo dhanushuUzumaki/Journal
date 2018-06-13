@@ -1,6 +1,9 @@
-FROM node:8.11.1
+FROM node:10.4.1
 
 ARG PORT
+
+# install jq
+RUN curl -o /usr/local/bin/jq http://stedolan.github.io/jq/download/linux64/jq && chmod +x /usr/local/bin/jq
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app

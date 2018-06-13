@@ -1,0 +1,4 @@
+{
+  "GRAPHQL_ENDPOINT": "https://api.journal.com",
+  "REACT_CLIENT_PORT": "3000"
+}

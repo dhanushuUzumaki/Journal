@@ -7,11 +7,12 @@ import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { createBrowserHistory } from 'history';
 import { ConnectedRouter } from 'connected-react-router';
+import config from '../config.json';
 import configureStore from './store/';
 import App from './components/App';
 import './styles/index.scss';
 
-const httpLink = new HttpLink({ uri: 'http://localhost:8080' });
+const httpLink = new HttpLink({ uri: config.GRAPHQL_ENDPOINT });
 
 const client = new ApolloClient({
   link: httpLink,

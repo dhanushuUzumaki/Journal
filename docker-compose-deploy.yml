@@ -34,16 +34,11 @@ services:
             password: ${PRISMA_DB_PASSWORD}
             migrations: ${PRISMA_ENABLE_MIGRATION}
   graphql-server:
-    build:
-      context: ./graphql-server/
-      args:
-        - PORT=${GRAPHQL_SERVER_PORT}
+    image: duzumaki/journal:gqls-latest
     networks:
       - web
     ports:
       - "${GRAPHQL_SERVER_PORT}:${GRAPHQL_SERVER_PORT}"
-    volumes:
-      - ./graphql-server:/usr/src/app
     depends_on:
       - prisma
     command: ["./wait-for-it.sh", "prisma:${PRISMA_PORT}", "--", "./bootstrap.sh"]
@@ -54,28 +49,31 @@ services:
       - APOLLO_ENGINE_KEY
       - PRISMA_ENDPOINT
       - PRISMA_MANAGEMENT_API_SECRET
+      - DEPLOY_PRISMA
     labels:
       - "traefik.backend=graphql"
       - "traefik.frontend.rule=Host:api.journal.com"
       - "traefik.enable=true"
-      - "traefik.port=8080"
+      - "traefik.port=${GRAPHQL_SERVER_PORT}"
       - "traefik.docker.network=web"
   react-client:
-    build:
-      context: ./react-client/
-      args:
-        - PORT=${REACT_CLIENT_PORT}
+    image: duzumaki/journal:rc-latest
     ports:
       - "${REACT_CLIENT_PORT}:${REACT_CLIENT_PORT}"
-    volumes:
-      - ./react-client:/usr/src/app
+    command: ["./wait-for-it.sh", "graphql-server:${GRAPHQL_SERVER_PORT}", "--", "./bootstrap.sh"]
     depends_on:
       - graphql-server
     environment:
-      - GRAPHQL_SERVER_PORT
+      - GRAPHQL_ENDPOINT
       - REACT_CLIENT_PORT
     networks:
       - web
+    labels:
+      - "traefik.backend=react-client"
+      - "traefik.frontend.rule=Host:journal.com"
+      - "traefik.enable=true"
+      - "traefik.port=${REACT_CLIENT_PORT}"
+      - "traefik.docker.network=web"
 networks:
   web:
     external: true
