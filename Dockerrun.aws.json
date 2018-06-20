@@ -21,6 +21,11 @@
           "name": "GRAPHQL_ENDPOINT",
           "value": "https://dummyendpoint.com"
         }
+      ],
+      "command": [
+        "npm",
+        "run",
+        "setupAndStart"
       ]
     }
   ]

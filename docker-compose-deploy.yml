@@ -1,18 +1,18 @@
 version: '3'
 services:
-  reverse-proxy:
-    image: traefik
-    ports:
-      - "80:80"
-      - "443:443"
-      - "${TRAEFIK_DASHBOARD_PORT}:8080"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./traefik/traefik.toml:/etc/traefik/traefik.toml
-      - ./traefik/certs/journal.crt:/certs/journal.crt
-      - ./traefik/certs/journal.key:/certs/journal.key
-    networks:
-      - web
+  # reverse-proxy:
+  #   image: traefik
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #     - "${TRAEFIK_DASHBOARD_PORT}:8080"
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - ./traefik/traefik.toml:/etc/traefik/traefik.toml
+  #     - ./traefik/certs/journal.crt:/certs/journal.crt
+  #     - ./traefik/certs/journal.key:/certs/journal.key
+  #   networks:
+  #     - web
   prisma:
     image: prismagraphql/prisma:1.8
     restart: always
