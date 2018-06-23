@@ -16,3 +16,5 @@ RUN chmod +x ./wait-for-it.sh
 RUN chmod +x ./bootstrap.sh
 
 EXPOSE $PORT
+
+CMD ["npm", "run", "setupAndStart"]

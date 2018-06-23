@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "prisma:deploy": "prisma deploy",
     "start": "node src/index.js --harmony",
-    "generate:doc": "graphdoc -e http://localhost:8080 -o ./docs/api"
+    "generate:doc": "graphdoc -e http://localhost:8080 -o ./docs/api",
+    "setupAndStart": "./bootstrap.sh"
   },
   "repository": {
     "type": "git",
